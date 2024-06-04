@@ -31,6 +31,30 @@ export const ShowPayment = ({ item, setItem }) => {
           {error && <AlertError error={error} font={"text-lg font-semibold"} layer={"text-center py-3"} />}
           <div>
             <div class="mb-6">
+              <h3 className="text-lg font-semibold">Pembayaran</h3>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 mb-2" for="name">
+                Status
+              </label>
+              <input type="text" id="name" name="name" placeholder="Contoh: Ketut Krisna" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" value={item?.status} disabled />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 mb-2" for="name">
+                Link Pembayaran
+              </label>
+              <a href={item?.url_redirect}>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Contoh: Ketut Krisna"
+                  class="cursor-pointer w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  value={item?.url_redirect}
+                />
+              </a>
+            </div>
+            <div class="mb-6">
               <h3 className="text-lg font-semibold">Member</h3>
             </div>
             <div class="mb-4">
@@ -82,11 +106,11 @@ export const ShowPayment = ({ item, setItem }) => {
               />
             </div>
             <div class="mb-6">
-              <h3 className="text-lg font-semibold">Pembayaran</h3>
+              <h3 className="text-lg font-semibold">Paket</h3>
             </div>
             <div class="mb-6">
               <label class="block text-gray-700 mb-2" for="address">
-                Paket
+                Nama Paket
               </label>
               <input
                 type="text"

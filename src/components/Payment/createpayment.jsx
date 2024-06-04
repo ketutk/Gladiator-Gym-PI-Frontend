@@ -37,8 +37,6 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
   }, []);
 
   const handleSubmit = async () => {
-    console.log(selectedMembers);
-    console.log(selectedPackages);
     setIsLoading(true);
     if (!selectedMembers || !selectedPackages) {
       setError("Mohon pilih member dan paket");
@@ -47,15 +45,12 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
 
     try {
       const response = await fetchAddPayment({ member_id: selectedMembers.value, package_id: selectedPackages.value }, token);
-
+      console.log(response.data);
       setSuccess(response.data.message);
+      setShouldRefetch(true);
       setSelectedMembers();
       setSelectedPackages();
-      setCurrentPage(1);
-      setDebounceName("");
-      setFrom("");
-      setTo("");
-      setShouldRefetch(true);
+      window.open(response?.data?.data?.payment?.url_redirect);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);

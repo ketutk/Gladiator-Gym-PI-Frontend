@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Body } from "./body";
 import { PaginationComponents } from "./pagination";
 import { useEffect } from "react";
-import { Dropdown, Table, Spinner, Datepicker } from "flowbite-react";
+import { Dropdown, Table, Spinner, Datepicker, Button } from "flowbite-react";
 import { debounce } from "lodash";
 import { useCallback } from "react";
 import { fetchPayment } from "../../functions/API/fetchPayment";
@@ -14,6 +14,7 @@ export const Payment = ({ token }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
   const [debounceName, setDebounceName] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -24,16 +25,18 @@ export const Payment = ({ token }) => {
     setIsLoading(true);
 
     const fetchItems = async () => {
-      const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from}&to=${to}`, token);
+      const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from}&to=${to}&status=${status}`, token);
       console.log(response);
       setItems(response.data.data.payments);
       setTotalItems(response.data.data.total_items);
       setTotalPages(response.data.data.total_page);
       setIsLoading(false);
-      setShouldRefetch(false);
     };
-    fetchItems();
-  }, [currentPage, debounceName, shouldRefetch]);
+    if (shouldRefetch) {
+      fetchItems();
+      setShouldRefetch(false);
+    }
+  }, [currentPage, debounceName, shouldRefetch, status]);
 
   const debouncedSetName = useCallback(
     debounce((value) => {
@@ -51,7 +54,7 @@ export const Payment = ({ token }) => {
   return (
     <>
       <h1 className="text-center font-bold text-4xl mb-4">Pembayaran</h1>
-      <div class="mx-auto max-w-screen-xl px-4 lg:px-12 overflow-auto">
+      <div class="mx-auto max-w-screen-2xl px-4 lg:px-12 overflow-auto">
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
           <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             <div class="w-full md:w-1/2">
@@ -79,6 +82,95 @@ export const Payment = ({ token }) => {
             <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
               <CreatePayment setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} setDebounceName={setDebounceName} setFrom={setFrom} setTo={setTo} />
               <FilterTanggal setFrom={setFrom} setTo={setTo} setShouldRefetch={setShouldRefetch} from={from} to={to} />
+              <Button className="px-0 py-0 text-xs" color={"dark"} size={"xs"}>
+                <Dropdown label={"Status"} dismissOnClick={false} className="px-0 py-0" color={""} size={"sm"}>
+                  <Dropdown.Item>
+                    <input
+                      id="active"
+                      name="membership-status"
+                      type="radio"
+                      value="settlement"
+                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      onChange={(e) => {
+                        setStatus(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      checked={status === "settlement" ? true : false}
+                    />
+                    <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Settlement
+                    </label>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <input
+                      id="non-active"
+                      name="membership-status"
+                      type="radio"
+                      value="pending"
+                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      onChange={(e) => {
+                        setStatus(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      checked={status === "pending" ? true : false}
+                    />
+                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Pending
+                    </label>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <input
+                      id="non-active"
+                      name="membership-status"
+                      type="radio"
+                      value="expire"
+                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      onChange={(e) => {
+                        setStatus(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      checked={status === "expire" ? true : false}
+                    />
+                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Expired
+                    </label>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <input
+                      id="non-active"
+                      name="membership-status"
+                      type="radio"
+                      value="unsettled"
+                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      onChange={(e) => {
+                        setStatus(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      checked={status === "unsettled" ? true : false}
+                    />
+                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Unsettled
+                    </label>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <input
+                      id="non-active"
+                      name="membership-status"
+                      type="radio"
+                      value=""
+                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      onChange={(e) => {
+                        setStatus(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      checked={status === "" ? true : false}
+                    />
+                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      All
+                    </label>
+                  </Dropdown.Item>
+                </Dropdown>
+              </Button>
             </div>
           </div>
           <div class="overflow-x-auto">
@@ -89,6 +181,7 @@ export const Payment = ({ token }) => {
                 <Table.HeadCell>Paket</Table.HeadCell>
                 <Table.HeadCell>Harga</Table.HeadCell>
                 <Table.HeadCell>Staff</Table.HeadCell>
+                <Table.HeadCell>Status</Table.HeadCell>
                 <Table.HeadCell>Tanggal</Table.HeadCell>
                 <Table.HeadCell>
                   <span className="sr-only">Edit</span>

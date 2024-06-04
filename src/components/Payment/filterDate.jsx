@@ -25,7 +25,6 @@ export function FilterTanggal({ setFrom, setTo, setShouldRefetch, from, to }) {
               maxDate={to ? new Date(to) : new Date()}
               defaultDate={from ? new Date(from) : new Date()}
               showClearButton={false}
-              labelTodayButton="Reset"
               onSelectedDateChanged={(date) => {
                 setFrom(new Date(date).toLocaleString());
               }}
@@ -36,18 +35,31 @@ export function FilterTanggal({ setFrom, setTo, setShouldRefetch, from, to }) {
               minDate={from ? new Date(from) : new Date()}
               defaultDate={to ? new Date(to) : new Date()}
               showClearButton={false}
-              labelTodayButton="Reset"
               onSelectedDateChanged={(date) => {
                 setTo(new Date(date).toLocaleString());
               }}
             />
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleSet} color={"dark"}>
-            Terapkan
-          </Button>
-          <Button color="gray" onClick={() => setOpenModal(false)}>
+        <Modal.Footer className="flex flex-row justify-between">
+          <div className="flex flex-row space-x-2">
+            <Button onClick={handleSet} color={"dark"}>
+              Terapkan
+            </Button>
+            <Button
+              color="danger"
+              className="bg-red-600 text-white hover:bg-red-700"
+              onClick={() => {
+                setFrom("");
+                setTo("");
+                setShouldRefetch(true);
+                setOpenModal(false);
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+          <Button color="gray" className="bg-gray-300" onClick={() => setOpenModal(false)}>
             Batal
           </Button>
         </Modal.Footer>

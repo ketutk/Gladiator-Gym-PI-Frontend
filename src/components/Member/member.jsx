@@ -3,7 +3,7 @@ import { fetchMember } from "../../functions/API/fetchMember";
 import { Body } from "./body";
 import { PaginationComponents } from "./pagination";
 import { useEffect } from "react";
-import { Dropdown, Table, Spinner } from "flowbite-react";
+import { Dropdown, Table, Spinner, Button } from "flowbite-react";
 import { debounce } from "lodash";
 import { useCallback } from "react";
 import { CreateMember } from "./createmember";
@@ -76,8 +76,8 @@ export const Member = ({ token }) => {
             </div>
             <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
               <CreateMember setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} setDebounceName={setDebounceName} setStatus={setStatus} />
-              <div class="flex justify-end items-center space-x-3 w-full md:w-auto">
-                <Dropdown label={<span className="text-white">Filter</span>} dismissOnClick={false} color={"dark"} className="">
+              <Button className="px-0 py-0 text-xs" color={"dark"} size={"xs"}>
+                <Dropdown label={"Status"} dismissOnClick={false} className="px-0 py-0" color={""} size={"sm"}>
                   <Dropdown.Item>
                     <input
                       id="active"
@@ -130,7 +130,7 @@ export const Member = ({ token }) => {
                     </label>
                   </Dropdown.Item>
                 </Dropdown>
-              </div>
+              </Button>
             </div>
           </div>
           <div class="overflow-x-auto">

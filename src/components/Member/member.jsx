@@ -108,7 +108,7 @@ export const Member = ({ token }) => {
                       }}
                       checked={status === "false" ? true : false}
                     />
-                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 text-nowrap">
                       Non-active
                     </label>
                   </Dropdown.Item>

@@ -94,6 +94,7 @@ export const Payment = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "settlement" ? true : false}
                     />
@@ -111,6 +112,7 @@ export const Payment = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "pending" ? true : false}
                     />
@@ -128,6 +130,7 @@ export const Payment = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "expire" ? true : false}
                     />
@@ -145,6 +148,7 @@ export const Payment = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "unsettled" ? true : false}
                     />
@@ -162,6 +166,7 @@ export const Payment = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "" ? true : false}
                     />

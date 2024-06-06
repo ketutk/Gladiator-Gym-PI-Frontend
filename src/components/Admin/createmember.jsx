@@ -8,7 +8,6 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
   const [openModal, setOpenModal] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [ktp, setKtp] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -20,24 +19,20 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (!name || !email || !password || !address || !phone || !ktp) {
+    if (!name || !email || !address || !phone || !ktp) {
       setError("Semua field harus diisi!");
       return setIsLoading(false);
     }
 
     try {
-      const response = await fetchAddAdmin({ name, phone, email, password, address, ktp_id: ktp }, token);
+      const response = await fetchAddAdmin({ name, phone, email, address, ktp_id: ktp }, token);
 
       setSuccess(response.data.message);
       setName("");
       setEmail("");
-      setPassword("");
       setKtp("");
       setPhone("");
       setAddress("");
-      setCurrentPage(1);
-      setDebounceName("");
-      setShouldRefetch(true);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
@@ -107,25 +102,7 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
                 }}
               />
             </div>
-            <div class="mb-4">
-              <label class="block text-gray-700 mb-2" for="password">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Contoh: johndoe@gmail.com"
-                class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
-                value={password}
-                required
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setError("");
-                  setSuccess("");
-                }}
-              />
-            </div>
+
             <div class="mb-4">
               <label class="block text-gray-700 mb-2" for="ktp">
                 KTP_ID
@@ -187,7 +164,7 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleSubmit} color={"dark"} disabled={isLoading ? true : false}>
-            Tambah
+            {isLoading ? "Tunggu.." : "Tambah"}
           </Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Batal

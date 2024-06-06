@@ -53,11 +53,21 @@ export async function fetchChangePassword(data, token) {
 }
 export async function fetchAddAdmin(data, token) {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/register`, data, {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/verify/admin`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function fetchRegisterAdmin(token) {
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/register`, { token });
 
     return response;
   } catch (error) {

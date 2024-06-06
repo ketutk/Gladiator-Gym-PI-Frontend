@@ -11,11 +11,13 @@ import Password from "./components/password/password";
 import { Member } from "./components/Member/member";
 import { Payment } from "./components/Payment/payment";
 import { Admin } from "./components/Admin/admin";
+import { VerifyAdmin } from "./components/Verify/verifyAdmin";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to={"/login"} />} />
+      <Route path="/verify/:token" element={<VerifyAdmin />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/dashboard" element={<Navbar childComponent={Dashboard} />} />
       <Route path="/admin" element={<Navbar childComponent={Admin} />} />

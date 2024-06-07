@@ -6,9 +6,9 @@ import { fetchAddMember, fetchUpdateMember } from "../../functions/API/fetchMemb
 import { useEffect } from "react";
 export const ShowMember = ({ item, setItem, setShouldRefetch }) => {
   const [show, setShow] = useState(true);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [name, setName] = useState();
+  const [phone, setPhone] = useState();
+  const [address, setAddress] = useState();
   const [isChanged, setIsChanged] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -79,7 +79,7 @@ export const ShowMember = ({ item, setItem, setShouldRefetch }) => {
                 name="name"
                 placeholder="Contoh: Ketut Krisna"
                 class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
-                value={name || item.name}
+                value={typeof name !== "undefined" ? name : item.name}
                 onChange={(e) => {
                   setName(e.target.value);
                   setError("");
@@ -103,7 +103,7 @@ export const ShowMember = ({ item, setItem, setShouldRefetch }) => {
                 name="phone"
                 placeholder="Masukkan nomor telepon"
                 class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
-                value={phone || item.phone}
+                value={typeof phone !== "undefined" ? phone : item.phone}
                 onChange={(e) => {
                   setPhone(e.target.value);
                   setError("");
@@ -123,7 +123,7 @@ export const ShowMember = ({ item, setItem, setShouldRefetch }) => {
                 placeholder="Masukkan alamat"
                 class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
                 required
-                value={address || item.address}
+                value={typeof address !== "undefined" ? address : item.address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                   setError("");

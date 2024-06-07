@@ -3,6 +3,7 @@ import AlertError from "../reusable/error";
 import { fetchLogin } from "../../functions/API/fetchUser";
 import { redirect } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import { Button } from "flowbite-react";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -97,6 +98,9 @@ const LoginPage = () => {
             <button type="submit" class="w-full bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" disabled={isLoading ? true : false}>
               {isLoading ? "Mohon tunggu..." : "Masuk"}
             </button>
+            <Button className="w-full bg-gray-900 hover:bg-gray-700 mt-3" color={"dark"} href="/">
+              Kembali ke Home
+            </Button>
           </form>
         </div>
       </div>

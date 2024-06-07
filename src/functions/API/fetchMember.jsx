@@ -13,6 +13,15 @@ export async function fetchMember(query, token) {
     throw error;
   }
 }
+export async function fetchMemberByEmail(email) {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/member/${email}`);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
 export async function fetchAllMember(token) {
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/member/all`, {

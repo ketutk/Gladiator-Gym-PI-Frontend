@@ -1,7 +1,24 @@
+import { useEffect } from "react";
 import { useState } from "react";
+import { fetchPackage } from "../../functions/API/fetchPackage";
+import { formatRupiah } from "../../functions/libs/formatRupiah";
 
 export const HomePage = () => {
   const [email, setEmail] = useState("");
+  const [items, setItems] = useState();
+  const [isShowPackage, setIsShowPackage] = useState(false);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await fetchPackage();
+        setItems(response.data.data.packages);
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    };
+    fetch();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,7 +58,57 @@ export const HomePage = () => {
             </button>
           </div>
         </form>
+        <div className="animate-bounce mt-3">
+          <a href="#package" className={`text-white ${isShowPackage ? "hidden" : ""} `} onClick={() => setIsShowPackage(true)}>
+            Tampilkan paket
+          </a>
+        </div>
       </div>
+
+      {isShowPackage && (
+        <div class="px-4 mx-auto max-w-screen-xl text-center py-12 lg:pb-28 lg:pt-16" id="package">
+          <h2 class="mb-8 text-3xl font-extrabold tracking-tight leading-none text-white md:text-4xl lg:text-5xl">Paket Keanggotaan</h2>
+          <div class="flex w-full justify-center items-center">
+            <div className="w-full flex flex-nowrap overflow-x-auto gap-4">
+              {items &&
+                items.map((item) => {
+                  return <Card item={item} />;
+                })}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
+  );
+};
+
+const Card = ({ item }) => {
+  return (
+    <div class="min-w-64 rounded-lg shadow-lg bg-gray-800 text-white p-6 mx-auto max-w-lg text-center  dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+      <h3 class="mb-4 text-2xl font-semibold">{item?.name}</h3>
+      <div class="flex justify-center items-baseline my-8">
+        <span class="mr-2 text-3xl font-extrabold text-nowrap">{formatRupiah(item?.price)}</span>
+      </div>
+      <ul role="list" class="mb-8 space-y-4 text-left">
+        <li class="flex items-center space-x-3">
+          <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Membership selama {item?.days_add} hari</span>
+        </li>
+        <li class="flex items-center space-x-3">
+          <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Full akses 24/7</span>
+        </li>
+        <li class="flex items-center space-x-3">
+          <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Gratis akses setiap alat gym</span>
+        </li>
+      </ul>
+    </div>
   );
 };

@@ -23,7 +23,7 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
     const fetchAll = async () => {
       try {
         const membersData = await fetchAllMember(token);
-        const packagesData = await fetchPackage(token);
+        const packagesData = await fetchPackage();
         // console.log(membersData.data.data.members);
         // console.log(packagesData.data.data.packages);
         setMembers(membersData.data.data.members.map((member) => ({ value: member.id, label: `${member.name}  (${member?.email ? member?.email : member?.phone})` })));

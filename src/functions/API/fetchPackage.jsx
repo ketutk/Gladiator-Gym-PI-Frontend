@@ -1,12 +1,8 @@
 import axios from "axios";
 
-export async function fetchPackage(token) {
+export async function fetchPackage() {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/package/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/package/`);
 
     return response;
   } catch (error) {

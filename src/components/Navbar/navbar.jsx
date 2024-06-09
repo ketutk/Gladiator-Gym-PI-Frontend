@@ -86,6 +86,24 @@ const Navbar = ({ childComponent: ChildComponent }) => {
                     <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium  rounded-full bg-gray-700 text-gray-300">Superadmin</span>
                   </a>
                 </li>
+                <li>
+                  <a href="/paket" class={`flex items-center p-2  rounded-lg text-white ${location == "paket" ? "bg-gray-700" : ""} hover:bg-gray-700 group`}>
+                    {/* <svg class="flex-shrink-0 w-5 h-5  transition duration-75 text-gray-400  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="2 0 20 20">
+                  <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                    clip-rule="evenodd"
+                  />
+                </svg> */}
+                    <svg class="flex-shrink-0 w-5 h-5  transition duration-75 text-gray-400  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                      <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd" />
+                    </svg>
+
+                    <span class="flex-1 ms-3 whitespace-nowrap">Paket</span>
+                    <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium  rounded-full bg-gray-700 text-gray-300">Superadmin</span>
+                  </a>
+                </li>
               </>
             )}
             <li>
@@ -115,6 +133,7 @@ const Navbar = ({ childComponent: ChildComponent }) => {
                 <span class="flex-1 ms-3 whitespace-nowrap">Pembayaran</span>
               </a>
             </li>
+
             <li>
               <a href="/profile" class={`flex items-center p-2  rounded-lg text-white ${location == "profile" ? "bg-gray-700" : ""} hover:bg-gray-700 group`}>
                 <svg class="flex-shrink-0 w-5 h-5  transition duration-75 text-gray-400  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -142,20 +161,7 @@ const Navbar = ({ childComponent: ChildComponent }) => {
               </a>
             </li>
             <li>
-              <a href="/" class={`flex items-center p-2  rounded-lg text-white ${location == "password" ? "bg-gray-700" : ""} hover:bg-gray-700 group`}>
-                {/* <svg class="flex-shrink-0 w-5 h-5  transition duration-75 text-gray-400  group-hover:text-white" aria-hidden="true" viewBox="4 3 19 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    {" "}
-                    <path d="M13 14C13 13.4477 12.5523 13 12 13C11.4477 13 11 13.4477 11 14V16C11 16.5523 11.4477 17 12 17C12.5523 17 13 16.5523 13 16V14Z"></path>{" "}
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M7 8.12037C5.3161 8.53217 4 9.95979 4 11.7692V17.3077C4 19.973 6.31545 22 9 22H15C17.6846 22 20 19.973 20 17.3077V11.7692C20 9.95979 18.6839 8.53217 17 8.12037V7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7V8.12037ZM15 7V8H9V7C9 6.64936 9.06015 6.31278 9.17071 6C9.58254 4.83481 10.6938 4 12 4C13.3062 4 14.4175 4.83481 14.8293 6C14.9398 6.31278 15 6.64936 15 7ZM6 11.7692C6 10.866 6.81856 10 8 10H16C17.1814 10 18 10.866 18 11.7692V17.3077C18 18.7208 16.7337 20 15 20H9C7.26627 20 6 18.7208 6 17.3077V11.7692Z"
-                    ></path>{" "}
-                  </g>
-                </svg> */}
+              <a href="/" class={`flex items-center p-2  rounded-lg text-white "bg-gray-700" : ""} hover:bg-gray-700 group`}>
                 <svg class="flex-shrink-0 w-6 h-6  transition duration-75 text-gray-400  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="4 2 21 20">
                   <path
                     fill-rule="evenodd"

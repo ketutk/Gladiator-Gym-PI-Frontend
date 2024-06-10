@@ -7,7 +7,7 @@ import { Dropdown, Table, Spinner, Button } from "flowbite-react";
 import { debounce } from "lodash";
 import { useCallback } from "react";
 import { CreateMember } from "./createmember";
-export const Member = ({ token }) => {
+export const Member = () => {
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -17,26 +17,35 @@ export const Member = ({ token }) => {
   const [debounceName, setDebounceName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [shouldRefetch, setShouldRefetch] = useState(true);
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    setIsLoading(true);
-
     const fetchItems = async () => {
-      const response = await fetchMember(`?page=${currentPage}&status=${status}&name=${debounceName}`, token);
-      console.log(response);
-      setItems(response.data.data.member);
-      setTotalItems(response.data.data.total_items);
-      setTotalPages(response.data.data.total_page);
-      setIsLoading(false);
-      setShouldRefetch(false);
+      try {
+        setIsLoading(true);
+        const response = await fetchMember(`?page=${currentPage}&status=${status}&name=${debounceName}`, token);
+        console.log(response);
+        setItems(response.data.data.member);
+        setTotalItems(response.data.data.total_items);
+        setTotalPages(response.data.data.total_page);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+        setShouldRefetch(false);
+      }
     };
-    fetchItems();
-  }, [currentPage, status, debounceName, shouldRefetch]);
+    if (shouldRefetch) {
+      fetchItems();
+      setShouldRefetch(false);
+    }
+  }, [shouldRefetch]);
 
   const debouncedSetName = useCallback(
     debounce((value) => {
       setDebounceName(value);
       setCurrentPage(1);
+      setShouldRefetch(true);
     }, 1500), // Adjust the debounce delay as needed
     []
   );
@@ -88,6 +97,7 @@ export const Member = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "true" ? true : false}
                     />
@@ -105,6 +115,7 @@ export const Member = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "false" ? true : false}
                     />
@@ -122,6 +133,7 @@ export const Member = ({ token }) => {
                       onChange={(e) => {
                         setStatus(e.target.value);
                         setCurrentPage(1);
+                        setShouldRefetch(true);
                       }}
                       checked={status === "" ? true : false}
                     />
@@ -159,7 +171,7 @@ export const Member = ({ token }) => {
               </Table.Body>
             </Table>
           </div>
-          <PaginationComponents currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} totalItems={totalItems} />
+          <PaginationComponents currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} totalItems={totalItems} />
         </div>
       </div>
     </>

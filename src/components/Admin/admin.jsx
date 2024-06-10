@@ -18,24 +18,30 @@ export const Admin = ({ token }) => {
   const [shouldRefetch, setShouldRefetch] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-
     const fetchItems = async () => {
-      const response = await fetchAdmin(`?page=${currentPage}&s=${debounceName}`, token);
-      console.log(response);
-      setItems(response.data.data.user);
-      setTotalItems(response.data.data.total_items);
-      setTotalPages(response.data.data.total_page);
-      setIsLoading(false);
-      setShouldRefetch(false);
+      setIsLoading(true);
+      try {
+        const response = await fetchAdmin(`?page=${currentPage}&s=${debounceName}`, token);
+        console.log(response);
+        setItems(response.data.data.user);
+        setTotalItems(response.data.data.total_items);
+        setTotalPages(response.data.data.total_page);
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
     };
-    fetchItems();
-  }, [currentPage, debounceName, shouldRefetch]);
+    if (shouldRefetch) {
+      fetchItems();
+      setShouldRefetch(false);
+    }
+  }, [currentPage, shouldRefetch]);
 
   const debouncedSetName = useCallback(
     debounce((value) => {
       setDebounceName(value);
       setCurrentPage(1);
+      setShouldRefetch(true);
     }, 1500), // Adjust the debounce delay as needed
     []
   );
@@ -103,7 +109,7 @@ export const Admin = ({ token }) => {
               </Table.Body>
             </Table>
           </div>
-          <PaginationComponents currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} totalItems={totalItems} />
+          <PaginationComponents currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} totalItems={totalItems} />
         </div>
       </div>
     </>

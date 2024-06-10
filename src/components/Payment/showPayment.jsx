@@ -35,24 +35,22 @@ export const ShowPayment = ({ item, setItem }) => {
             </div>
             <div class="mb-4">
               <label class="block text-gray-700 mb-2" for="name">
-                Status
+                Metode Pembayaran
               </label>
-              <input type="text" id="name" name="name" placeholder="Contoh: Ketut Krisna" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" value={item?.status} disabled />
+              <input type="text" id="name" name="name" placeholder="Contoh: Ketut Krisna" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" value={item?.payment_method} disabled />
             </div>
             <div class="mb-4">
               <label class="block text-gray-700 mb-2" for="name">
-                Link Pembayaran
+                Total Pembayaran
               </label>
-              <a href={item?.url_redirect}>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Contoh: Ketut Krisna"
-                  class="cursor-pointer w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
-                  value={item?.url_redirect}
-                />
-              </a>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Contoh: Ketut Krisna"
+                class="cursor-pointer w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                value={formatRupiah(item?.total_payments)}
+              />
             </div>
             <div class="mb-6">
               <h3 className="text-lg font-semibold">Member</h3>

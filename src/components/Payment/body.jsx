@@ -30,7 +30,7 @@ export const Body = ({ data, setCurrentPage, setShouldRefetch, token }) => {
               <Table.Cell>{item?.package?.name}</Table.Cell>
               <Table.Cell>{formatRupiah(item?.total_payments)}</Table.Cell>
               <Table.Cell>{item?.staff?.name || "NULL"}</Table.Cell>
-              <Table.Cell>{item?.status}</Table.Cell>
+              <Table.Cell>{item?.payment_method}</Table.Cell>
               <Table.Cell>{new Date(item?.createdAt).toLocaleString()}</Table.Cell>
               <Table.Cell>
                 <Dropdown label={<span className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">Pilih</span>} inline placement={`${data.length === 1 ? "left" : "bottom"}`}>

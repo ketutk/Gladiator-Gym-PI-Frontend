@@ -8,40 +8,45 @@ import { useCallback } from "react";
 import { fetchPayment } from "../../functions/API/fetchPayment";
 import { CreatePayment } from "./createpayment";
 import { FilterTanggal } from "./filterDate";
-export const Payment = ({ token }) => {
+export const Payment = ({}) => {
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [debounceName, setDebounceName] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [shouldRefetch, setShouldRefetch] = useState(true);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    setIsLoading(true);
-
     const fetchItems = async () => {
-      const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from}&to=${to}&status=${status}`, token);
-      console.log(response);
-      setItems(response.data.data.payments);
-      setTotalItems(response.data.data.total_items);
-      setTotalPages(response.data.data.total_page);
-      setIsLoading(false);
+      setIsLoading(true);
+      try {
+        const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from}&to=${to}&pm=${paymentMethod}`, token);
+        console.log(response);
+        setItems(response.data.data.payments);
+        setTotalItems(response.data.data.total_items);
+        setTotalPages(response.data.data.total_page);
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
     };
     if (shouldRefetch) {
       fetchItems();
       setShouldRefetch(false);
     }
-  }, [currentPage, debounceName, shouldRefetch, status]);
+  }, [shouldRefetch]);
 
   const debouncedSetName = useCallback(
     debounce((value) => {
       setDebounceName(value);
       setCurrentPage(1);
+      setShouldRefetch(true);
     }, 1500), // Adjust the debounce delay as needed
     []
   );
@@ -89,17 +94,17 @@ export const Payment = ({ token }) => {
                       id="active"
                       name="membership-status"
                       type="radio"
-                      value="settlement"
+                      value="DEBIT"
                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       onChange={(e) => {
-                        setStatus(e.target.value);
+                        setPaymentMethod(e.target.value);
                         setCurrentPage(1);
                         setShouldRefetch(true);
                       }}
-                      checked={status === "settlement" ? true : false}
+                      checked={paymentMethod === "DEBIT" ? true : false}
                     />
                     <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Settlement
+                      Debit
                     </label>
                   </Dropdown.Item>
                   <Dropdown.Item>
@@ -107,17 +112,17 @@ export const Payment = ({ token }) => {
                       id="non-active"
                       name="membership-status"
                       type="radio"
-                      value="pending"
+                      value="CASH"
                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       onChange={(e) => {
-                        setStatus(e.target.value);
+                        setPaymentMethod(e.target.value);
                         setCurrentPage(1);
                         setShouldRefetch(true);
                       }}
-                      checked={status === "pending" ? true : false}
+                      checked={paymentMethod === "CASH" ? true : false}
                     />
                     <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Pending
+                      Cash
                     </label>
                   </Dropdown.Item>
                   <Dropdown.Item>
@@ -125,35 +130,17 @@ export const Payment = ({ token }) => {
                       id="non-active"
                       name="membership-status"
                       type="radio"
-                      value="expire"
+                      value="TRANSFER"
                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       onChange={(e) => {
-                        setStatus(e.target.value);
+                        setPaymentMethod(e.target.value);
                         setCurrentPage(1);
                         setShouldRefetch(true);
                       }}
-                      checked={status === "expire" ? true : false}
+                      checked={paymentMethod === "TRANSFER" ? true : false}
                     />
                     <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Expired
-                    </label>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <input
-                      id="non-active"
-                      name="membership-status"
-                      type="radio"
-                      value="unsettled"
-                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      onChange={(e) => {
-                        setStatus(e.target.value);
-                        setCurrentPage(1);
-                        setShouldRefetch(true);
-                      }}
-                      checked={status === "unsettled" ? true : false}
-                    />
-                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Unsettled
+                      Transfer
                     </label>
                   </Dropdown.Item>
                   <Dropdown.Item>
@@ -164,11 +151,11 @@ export const Payment = ({ token }) => {
                       value=""
                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       onChange={(e) => {
-                        setStatus(e.target.value);
+                        setPaymentMethod(e.target.value);
                         setCurrentPage(1);
                         setShouldRefetch(true);
                       }}
-                      checked={status === "" ? true : false}
+                      checked={paymentMethod === "" ? true : false}
                     />
                     <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                       All
@@ -186,7 +173,7 @@ export const Payment = ({ token }) => {
                 <Table.HeadCell>Paket</Table.HeadCell>
                 <Table.HeadCell>Harga</Table.HeadCell>
                 <Table.HeadCell>Staff</Table.HeadCell>
-                <Table.HeadCell>Status</Table.HeadCell>
+                <Table.HeadCell>Metode</Table.HeadCell>
                 <Table.HeadCell>Tanggal</Table.HeadCell>
                 <Table.HeadCell>
                   <span className="sr-only">Edit</span>
@@ -206,7 +193,7 @@ export const Payment = ({ token }) => {
               </Table.Body>
             </Table>
           </div>
-          {items && <PaginationComponents currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} totalItems={totalItems} />}
+          {items && <PaginationComponents currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} totalItems={totalItems} />}
         </div>
       </div>
     </>

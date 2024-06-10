@@ -10,8 +10,10 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
   const [openModal, setOpenModal] = useState(false);
   const [members, setMembers] = useState();
   const [packages, setPackages] = useState();
+  const [paymentMethod, setPaymentMethod] = useState();
   const [selectedMembers, setSelectedMembers] = useState();
   const [selectedPackages, setSelectedPackages] = useState();
+  const [selectedMethod, setSelectedMethod] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -24,10 +26,13 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
       try {
         const membersData = await fetchAllMember(token);
         const packagesData = await fetchPackage();
-        // console.log(membersData.data.data.members);
-        // console.log(packagesData.data.data.packages);
         setMembers(membersData.data.data.members.map((member) => ({ value: member.id, label: `${member.name}  (${member?.email ? member?.email : member?.phone})` })));
         setPackages(packagesData.data.data.packages.map((pkg) => ({ value: pkg.id, label: pkg.name })));
+        setPaymentMethod([
+          { value: "DEBIT", label: "DEBIT (BCA)" },
+          { value: "CASH", label: "CASH" },
+          { value: "TRANSFER", label: "TRANSFER (BCA)" },
+        ]);
       } catch (error) {
         setError(error.response.data.message);
       }
@@ -44,13 +49,10 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
     }
 
     try {
-      const response = await fetchAddPayment({ member_id: selectedMembers.value, package_id: selectedPackages.value }, token);
+      const response = await fetchAddPayment({ member_id: selectedMembers.value, package_id: selectedPackages.value, payment_method: selectedMethod.value }, token);
       console.log(response.data);
       setSuccess(response.data.message);
       setShouldRefetch(true);
-      setSelectedMembers();
-      setSelectedPackages();
-      window.open(response?.data?.data?.payment?.url_redirect);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
@@ -72,7 +74,16 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
       >
         Tambah Pembayaran
       </Button>
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal
+        dismissible
+        show={openModal}
+        onClose={() => {
+          setSelectedMembers();
+          setSelectedPackages();
+          setSelectedMethod();
+          setOpenModal(false);
+        }}
+      >
         <Modal.Header>Tambah Pembayaran</Modal.Header>
         <Modal.Body className={` overflow-auto`}>
           {success && <AlertSuccess success={success} font={"text-lg font-semibold"} layer={"text-center py-3"} />}
@@ -92,11 +103,12 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
                   onChange={(selectedOption) => {
                     setSelectedMembers(selectedOption);
                     setError("");
+                    setSuccess;
                   }}
                 />
               )}
             </div>
-            <div class={`mb-4 ${isOpen ? "min-h-screen" : ""}`}>
+            <div class={`mb-4`}>
               <label class="block text-gray-700 mb-2" for="name">
                 Paket
               </label>
@@ -111,6 +123,27 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
                   onChange={(selectedOption) => {
                     setSelectedPackages(selectedOption);
                     setError("");
+                    setSuccess("");
+                  }}
+                />
+              )}
+            </div>
+            <div class={`mb-4 ${isOpen ? "min-h-screen" : ""}`}>
+              <label class="block text-gray-700 mb-2" for="name">
+                Metode Pembayaran
+              </label>
+              {paymentMethod && (
+                <Select
+                  options={paymentMethod}
+                  placeholder="Pilih metode pembayaran"
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                  onMenuOpen={() => setIsOpen(true)}
+                  onMenuClose={() => setIsOpen(false)}
+                  onChange={(selectedOption) => {
+                    setSelectedMethod(selectedOption);
+                    setError("");
+                    setSuccess("");
                   }}
                 />
               )}
@@ -121,7 +154,15 @@ export const CreatePayment = ({ setCurrentPage, setShouldRefetch, setDebounceNam
           <Button onClick={handleSubmit} color={"dark"} disabled={isLoading ? true : false}>
             Tambah
           </Button>
-          <Button color="gray" onClick={() => setOpenModal(false)}>
+          <Button
+            color="gray"
+            onClick={() => {
+              setSelectedMembers();
+              setSelectedPackages();
+              setSelectedMethod();
+              setOpenModal(false);
+            }}
+          >
             Batal
           </Button>
         </Modal.Footer>

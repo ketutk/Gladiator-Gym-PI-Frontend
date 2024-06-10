@@ -3,7 +3,7 @@ import { getQueryParams } from "../../functions/libs/getQueryParams";
 import { useEffect } from "react";
 import { fetchMemberByEmail } from "../../functions/API/fetchMember";
 import { fetchPaymentsMember } from "../../functions/API/fetchPayment";
-import { Pagination, Spinner, Table } from "flowbite-react";
+import { Button, Pagination, Spinner, Table } from "flowbite-react";
 import { formatRupiah } from "../../functions/libs/formatRupiah";
 import AlertError from "../reusable/error";
 
@@ -15,12 +15,12 @@ export const FindMember = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showPayment, setShowPayment] = useState(false);
 
   const email = getQueryParams("member");
   useEffect(() => {
-    setIsLoading(true);
-
     const fetch = async () => {
+      setIsLoading(true);
       try {
         const memberData = await fetchMemberByEmail(email);
         const paymentData = await fetchPaymentsMember(email, `?page=${currentPage}`);
@@ -61,56 +61,61 @@ export const FindMember = () => {
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{member?.membership?.status ? "ACTIVE" : "INACTIVE"}</p>
               <label className="text-xl font-semibold">Masa Berlaku</label>
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{new Date(member?.membership?.active_until).toLocaleString()}</p>
+              <Button color="dark" className="mx-auto" onClick={() => (showPayment ? setShowPayment(false) : setShowPayment(true))} href="#payment">
+                {showPayment ? "Sembunyikan pembayaran" : "Tampilkan pembayaran"}
+              </Button>
             </div>
           </div>
-          <div className="mt-10 bg-white rounded-xl">
-            <p className="text-2xl font-bold py-4">Detail Pembayaran</p>
-            <div className="overflow-x-auto   ">
-              <Table hoverable>
-                <Table.Head>
-                  <Table.HeadCell>Nama</Table.HeadCell>
-                  <Table.HeadCell>Email</Table.HeadCell>
-                  <Table.HeadCell>Paket</Table.HeadCell>
-                  <Table.HeadCell>Harga</Table.HeadCell>
-                  <Table.HeadCell>Staff</Table.HeadCell>
-                  <Table.HeadCell>Status</Table.HeadCell>
-                  <Table.HeadCell>Tanggal (MM/dd/YYYY)</Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                  {isLoading ? (
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell colSpan={7}>
-                        <div className="text-center">
-                          <Spinner aria-label="Center-aligned spinner example" />
-                        </div>
-                      </Table.Cell>
-                    </Table.Row>
-                  ) : items && items.length !== 0 ? (
-                    items.map((item) => {
-                      return (
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{item?.member?.name}</Table.Cell>
-                          <Table.Cell>{item?.member?.email}</Table.Cell>
-                          <Table.Cell>{item?.package?.name}</Table.Cell>
-                          <Table.Cell>{formatRupiah(item?.total_payments)}</Table.Cell>
-                          <Table.Cell>{item?.staff?.name}</Table.Cell>
-                          <Table.Cell>{item?.status}</Table.Cell>
-                          <Table.Cell>{new Date(item?.updatedAt).toLocaleString()}</Table.Cell>
-                        </Table.Row>
-                      );
-                    })
-                  ) : (
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell colSpan={7}>
-                        <AlertError error={"Data pembayaran tidak ditemukan"} layer={"text-center py-4"} font={"text-lg font-bold"} />
-                      </Table.Cell>
-                    </Table.Row>
-                  )}
-                </Table.Body>
-              </Table>
-              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} className="py-4" color="dark" />
+          {showPayment && (
+            <div className="mt-10 bg-white rounded-xl" id="payment">
+              <p className="text-2xl font-bold py-4">Detail Pembayaran</p>
+              <div className="overflow-x-auto   ">
+                <Table hoverable>
+                  <Table.Head>
+                    <Table.HeadCell>Nama</Table.HeadCell>
+                    <Table.HeadCell>Email</Table.HeadCell>
+                    <Table.HeadCell>Paket</Table.HeadCell>
+                    <Table.HeadCell>Harga</Table.HeadCell>
+                    <Table.HeadCell>Staff</Table.HeadCell>
+                    <Table.HeadCell>Metode</Table.HeadCell>
+                    <Table.HeadCell>Tanggal (MM/dd/YYYY)</Table.HeadCell>
+                  </Table.Head>
+                  <Table.Body className="divide-y">
+                    {isLoading ? (
+                      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                        <Table.Cell colSpan={7}>
+                          <div className="text-center">
+                            <Spinner aria-label="Center-aligned spinner example" />
+                          </div>
+                        </Table.Cell>
+                      </Table.Row>
+                    ) : items && items.length !== 0 ? (
+                      items.map((item) => {
+                        return (
+                          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{item?.member?.name}</Table.Cell>
+                            <Table.Cell>{item?.member?.email}</Table.Cell>
+                            <Table.Cell>{item?.package?.name}</Table.Cell>
+                            <Table.Cell>{formatRupiah(item?.total_payments)}</Table.Cell>
+                            <Table.Cell>{item?.staff?.name}</Table.Cell>
+                            <Table.Cell>{item?.payment_method}</Table.Cell>
+                            <Table.Cell>{new Date(item?.updatedAt).toLocaleString()}</Table.Cell>
+                          </Table.Row>
+                        );
+                      })
+                    ) : (
+                      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                        <Table.Cell colSpan={7}>
+                          <AlertError error={"Data pembayaran tidak ditemukan"} layer={"text-center py-4"} font={"text-lg font-bold"} />
+                        </Table.Cell>
+                      </Table.Row>
+                    )}
+                  </Table.Body>
+                </Table>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} className="py-4" color="dark" />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ) : (
         <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">

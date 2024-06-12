@@ -4,7 +4,7 @@ import { fetchDeleteMember } from "../../functions/API/fetchMember";
 import { ShowMember } from "./showMember";
 import { useState } from "react";
 
-export const Body = ({ data, setCurrentPage, setShouldRefetch, token }) => {
+export const Body = ({ data, setCurrentPage, setShouldRefetch, token, user }) => {
   const [item, setItem] = useState();
   const handleDelete = async (id) => {
     const confirmation = window.confirm("Apakah anda yakin ingin menghapus data ini ?");
@@ -34,9 +34,11 @@ export const Body = ({ data, setCurrentPage, setShouldRefetch, token }) => {
                   <Dropdown.Item onClick={() => setItem(item)}>
                     <span>Lihat</span>
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={(e) => handleDelete(item.id)}>
-                    <span>Hapus</span>
-                  </Dropdown.Item>
+                  {user && user.role === "SUPERADMIN" && (
+                    <Dropdown.Item onClick={(e) => handleDelete(item.id)}>
+                      <span>Hapus</span>
+                    </Dropdown.Item>
+                  )}
                 </Dropdown>
               </Table.Cell>
             </Table.Row>

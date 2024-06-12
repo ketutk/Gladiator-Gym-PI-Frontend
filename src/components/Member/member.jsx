@@ -7,7 +7,7 @@ import { Dropdown, Table, Spinner, Button } from "flowbite-react";
 import { debounce } from "lodash";
 import { useCallback } from "react";
 import { CreateMember } from "./createmember";
-export const Member = () => {
+export const Member = ({ user }) => {
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -167,7 +167,7 @@ export const Member = () => {
                     </Table.Cell>
                   </Table.Row>
                 )}
-                {!isLoading && <Body data={items} setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} token={token} />}
+                {!isLoading && <Body data={items} setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} token={token} user={user} />}
               </Table.Body>
             </Table>
           </div>

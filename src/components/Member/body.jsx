@@ -11,6 +11,7 @@ export const Body = ({ data, setCurrentPage, setShouldRefetch, token, user }) =>
     if (confirmation) {
       try {
         const response = await fetchDeleteMember(id, token);
+        window.alert("Berhasil menghapus data");
         setCurrentPage(1);
         setShouldRefetch(true);
       } catch (error) {

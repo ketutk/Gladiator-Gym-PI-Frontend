@@ -24,7 +24,7 @@ export const Member = ({ user }) => {
         setIsLoading(true);
         const response = await fetchMember(`?page=${currentPage}&status=${status}&name=${debounceName}`, token);
         console.log(response);
-        setItems(response.data.data.member);
+        setItems(response.data.data.members);
         setTotalItems(response.data.data.total_items);
         setTotalPages(response.data.data.total_page);
         setIsLoading(false);

@@ -44,7 +44,7 @@ export const FindMember = () => {
           <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">{error}</p>
         </div>
       ) : member ? (
-        <div class="px-4 mx-auto max-w-screen-xl text-center py-10">
+        <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-30">
           <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Halo, {member.name}</h1>
           <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
             Berikut adalah data detail anda terkait status membership dan histori pembayaran anda. Jika dirasa ada data yang tidak sesuai, anda bisa menyampaikan hal tersebut ke staff kami.
@@ -123,6 +123,64 @@ export const FindMember = () => {
           <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Mohon tunggu sebentar. Proses pencarian data sedang berlangsung dan membutuhkan beberapa waktu.</p>
         </div>
       )}
+      <footer class="bg-gray-900 text-white py-8 w-full">
+        <div class="w-full flex flex-row items-center justify-center px-4">
+          <div class="flex flex-col md:flex-row justify-between mt-10 w-full md:basis-3/4">
+            <div class="mb-4 md:mb-0 flex flex-col basis-1/3 gap-y-3">
+              <p class="text-lg font-extrabold">Tentang kami</p>
+              <p className="text-wrap">Ruko dasana xentre blok BD no 20-22, Bojong Nangka, Kelapa Dua, Tangerang Regency, Banten 15810</p>
+              <a className="text-wrap" href="https://wa.me/6281314206253">
+                Contact : <span className="font-semibold italic">Click Here (WA)</span>
+              </a>
+            </div>
+            <div class="mb-4 md:mb-0 flex flex-col md:items-center basis-1/3 ">
+              <div className="flex flex-col gap-y-3">
+                <p class="text-lg font-extrabold">Halaman</p>
+                <a href="/" className="hover:underline">
+                  Homepage
+                </a>
+                <a href="/#findmember" className="hover:underline">
+                  Detail Member
+                </a>
+                <a href="/login" className="hover:underline">
+                  Login
+                </a>
+              </div>
+            </div>
+
+            <div class="mb-4 md:mb-0 flex flex-col basis-1/3 ">
+              <p class="text-lg font-extrabold">
+                Media Pembayaran
+                <span className="text-gray-400"> (On-Site)</span>
+              </p>
+              <p className="text-wrap">Tersedia pembayaran On-Site melalui : </p>
+              <ul class="max-w-md space-y-1  list-inside ">
+                <li class="flex items-center">
+                  <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                  </svg>
+                  Transfer (BCA)
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                  </svg>
+                  Debit (BCA)
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                  </svg>
+                  Cash
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 text-center text-gray-400">
+          <p>&copy; 2024 Gladiator Gym. All rights reserved.</p>
+        </div>
+      </footer>
     </section>
   );
 };

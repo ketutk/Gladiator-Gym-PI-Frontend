@@ -3,8 +3,8 @@ export const NavbarMain = ({ childComponent: ChildComponent }) => {
   const token = localStorage.getItem("token");
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-700">
-      <Navbar fluid className="static">
-        <Navbar.Brand href="https://flowbite-react.com">
+      <Navbar fluid className="fixed w-full z-50">
+        <Navbar.Brand href="/">
           <svg class="w-10 h-10" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000">
             <g id="SVGRepo_bgCarrier" stroke-width="0" />
 

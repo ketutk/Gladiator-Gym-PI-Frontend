@@ -7,18 +7,6 @@ import { formatRupiah } from "../../functions/libs/formatRupiah";
 
 export const Body = ({ data, setCurrentPage, setShouldRefetch, token }) => {
   const [item, setItem] = useState();
-  const handleDelete = async (id) => {
-    const confirmation = window.confirm("Apakah anda yakin ingin menghapus data ini ?");
-    if (confirmation) {
-      try {
-        const response = await fetchDeleteMember(id, token);
-        setCurrentPage(1);
-        setShouldRefetch(true);
-      } catch (error) {
-        window.alert(error.response.data.message);
-      }
-    }
-  };
   return (
     <>
       {data &&

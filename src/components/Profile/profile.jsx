@@ -35,7 +35,7 @@ const Profile = ({ user, setShouldRefetch, token }) => {
   };
   return (
     <>
-      <h1 className="text-4xl font-bold text-center">Profile</h1>
+      <h1 className="text-4xl font-bold text-center">Profil</h1>
 
       <div class="flex flex-col justify-center w-full p-8">
         <div class="max-w-xl w-full mx-auto bg-white p-8 border border-gray-300 shadow-md rounded-lg ">
@@ -66,7 +66,7 @@ const Profile = ({ user, setShouldRefetch, token }) => {
               </div>
               <div class="mb-6">
                 <label class="block text-gray-700 mb-2" for="phone">
-                  Phone
+                  Telepon
                 </label>
                 <input
                   type="text"

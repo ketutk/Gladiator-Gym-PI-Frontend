@@ -77,7 +77,7 @@ export const ShowPayment = ({ item, setItem }) => {
             </div>
             <div class="mb-6">
               <label class="block text-gray-700 mb-2" for="phone">
-                Phone
+                Telepon
               </label>
               <input
                 type="text"
@@ -123,7 +123,7 @@ export const ShowPayment = ({ item, setItem }) => {
             </div>
             <div class="mb-6">
               <label class="block text-gray-700 mb-2" for="address">
-                Harga
+                Harga Paket
               </label>
               <input
                 type="text"

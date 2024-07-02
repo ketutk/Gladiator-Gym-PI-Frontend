@@ -12,7 +12,7 @@ export const PaginationComponents = ({ currentPage, totalPages, setCurrentPage, 
         &nbsp; of &nbsp;
         <span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span>
       </span>
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} previousLabel="Sebelum" nextLabel="Selanjutnya" />
     </nav>
   );
 };

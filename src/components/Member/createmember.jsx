@@ -67,7 +67,7 @@ export const CreateMember = ({ setCurrentPage, setShouldRefetch, setStatus, setD
           <form>
             <div class="mb-4">
               <label class="block text-gray-700 mb-2" for="name">
-                Name
+                Nama
               </label>
               <input
                 type="text"
@@ -104,7 +104,7 @@ export const CreateMember = ({ setCurrentPage, setShouldRefetch, setStatus, setD
             </div>
             <div class="mb-6">
               <label class="block text-gray-700 mb-2" for="phone">
-                Phone
+                Telepon
               </label>
               <input
                 type="text"

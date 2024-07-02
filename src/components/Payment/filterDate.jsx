@@ -1,10 +1,18 @@
 import { Button, Datepicker, Modal } from "flowbite-react";
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export function FilterTanggal({ setFrom, setTo, setShouldRefetch, from, to }) {
   const [openModal, setOpenModal] = useState(false);
+
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
+  const onChange = (dates) => {
+    const [start, end] = dates;
+    setFrom(start);
+    setTo(end);
+  };
   const handleSet = () => {
     setShouldRefetch(true);
   };
@@ -17,8 +25,8 @@ export function FilterTanggal({ setFrom, setTo, setShouldRefetch, from, to }) {
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>FilterTanggal</Modal.Header>
         <Modal.Body className="min-h-72">
-          <div className="flex flex-col md:flex-row items-center">
-            <Datepicker
+          <div className="flex flex-col md:flex-row items-center justify-center">
+            {/* <Datepicker
               inline
               theme={"dark"}
               title="Tanggal mulai"
@@ -38,7 +46,9 @@ export function FilterTanggal({ setFrom, setTo, setShouldRefetch, from, to }) {
               onSelectedDateChanged={(date) => {
                 setTo(new Date(date).toLocaleString());
               }}
-            />
+            /> */}
+
+            <DatePicker selected={from || new Date()} onChange={onChange} startDate={from || new Date()} endDate={to || null} selectsRange inline />
           </div>
         </Modal.Body>
         <Modal.Footer className="flex flex-row justify-between">

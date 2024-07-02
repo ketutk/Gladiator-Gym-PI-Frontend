@@ -48,6 +48,7 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
           setName("");
           setEmail("");
           setPhone("");
+          setKtp("");
           setAddress("");
           setError("");
           setSuccess("");
@@ -66,7 +67,7 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
           <form>
             <div class="mb-4">
               <label class="block text-gray-700 mb-2" for="name">
-                Name
+                Nama
               </label>
               <input
                 type="text"
@@ -105,7 +106,7 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
 
             <div class="mb-4">
               <label class="block text-gray-700 mb-2" for="ktp">
-                KTP_ID
+                No.KTP
               </label>
               <input
                 type="text"
@@ -124,7 +125,7 @@ export const CreateAdmin = ({ setCurrentPage, setShouldRefetch, setDebounceName 
             </div>
             <div class="mb-6">
               <label class="block text-gray-700 mb-2" for="phone">
-                Phone
+                Telepon
               </label>
               <input
                 type="text"

@@ -76,7 +76,7 @@ export const Member = ({ user }) => {
                     type="text"
                     id="simple-search"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
-                    placeholder="Search"
+                    placeholder="Cari member...."
                     value={name}
                     onChange={onChangeName}
                   />
@@ -102,7 +102,7 @@ export const Member = ({ user }) => {
                       checked={status === "true" ? true : false}
                     />
                     <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Active
+                      Aktif
                     </label>
                   </Dropdown.Item>
                   <Dropdown.Item>
@@ -120,12 +120,12 @@ export const Member = ({ user }) => {
                       checked={status === "false" ? true : false}
                     />
                     <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 text-nowrap">
-                      Non-active
+                      Non-Aktif
                     </label>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <input
-                      id="non-active"
+                      id="all-status"
                       name="membership-status"
                       type="radio"
                       value=""
@@ -137,8 +137,8 @@ export const Member = ({ user }) => {
                       }}
                       checked={status === "" ? true : false}
                     />
-                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      All
+                    <label for="all-status" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Semua
                     </label>
                   </Dropdown.Item>
                 </Dropdown>
@@ -148,10 +148,10 @@ export const Member = ({ user }) => {
           <div class="overflow-x-auto">
             <Table hoverable>
               <Table.Head>
-                <Table.HeadCell>Name</Table.HeadCell>
+                <Table.HeadCell>Nama</Table.HeadCell>
                 <Table.HeadCell>Email</Table.HeadCell>
-                <Table.HeadCell>Phone</Table.HeadCell>
-                <Table.HeadCell>Address</Table.HeadCell>
+                <Table.HeadCell>Telp</Table.HeadCell>
+                <Table.HeadCell>Alamat</Table.HeadCell>
                 <Table.HeadCell>Status</Table.HeadCell>
                 <Table.HeadCell>
                   <span className="sr-only">Edit</span>

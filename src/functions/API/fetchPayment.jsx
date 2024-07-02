@@ -13,6 +13,19 @@ export async function fetchPayment(query, token) {
     throw error;
   }
 }
+export async function fetchAllPayment(query, token) {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/payments/all${query}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
 export async function fetchPaymentsMember(email, query) {
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/payments/member/${email}${query}`);

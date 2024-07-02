@@ -29,7 +29,7 @@ export const Body = ({ data, setCurrentPage, setShouldRefetch, token, user }) =>
               <Table.Cell>{item?.email || "NULL"}</Table.Cell>
               <Table.Cell>{item?.phone || "NULL"}</Table.Cell>
               <Table.Cell>{item?.address}</Table.Cell>
-              <Table.Cell>{item?.membership?.status === true ? "ACTIVE" : "INACTIVE"}</Table.Cell>
+              <Table.Cell>{item?.membership?.status === true ? "AKTIF" : "NON-AKTIF"}</Table.Cell>
               <Table.Cell>
                 <Dropdown label={<span className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">Pilih</span>} inline placement={`${data.length === 1 ? "left" : "bottom"}`}>
                   <Dropdown.Item onClick={() => setItem(item)}>

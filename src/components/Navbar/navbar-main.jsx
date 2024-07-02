@@ -21,11 +21,11 @@ export const NavbarMain = ({ childComponent: ChildComponent }) => {
         </Navbar.Brand>
         <div className="space-x-3 flex">
           <Button className="hidden md:inline-block" color={"dark"} href="/">
-            Home
+            Beranda
           </Button>
           {token ? (
             <Button className="hidden md:inline-block" color={"dark"} href="/dashboard">
-              Dashboard
+              Dashbor
             </Button>
           ) : (
             <Button className="hidden md:inline-block" color={"dark"} href="/login">
@@ -36,7 +36,7 @@ export const NavbarMain = ({ childComponent: ChildComponent }) => {
         </div>
         <Navbar.Collapse className="md:hidden">
           <Navbar.Link href="/">Home</Navbar.Link>
-          {token ? <Navbar.Link href="/dashboard">Dashboard</Navbar.Link> : <Navbar.Link href="/login">Login</Navbar.Link>}
+          {token ? <Navbar.Link href="/dashboard">Dashbor</Navbar.Link> : <Navbar.Link href="/login">Login</Navbar.Link>}
         </Navbar.Collapse>
       </Navbar>
       <div className="w-full">

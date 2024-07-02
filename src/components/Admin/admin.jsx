@@ -86,11 +86,11 @@ export const Admin = ({ token }) => {
           <div class="overflow-x-auto">
             <Table hoverable>
               <Table.Head>
-                <Table.HeadCell>Name</Table.HeadCell>
+                <Table.HeadCell>Nama</Table.HeadCell>
                 <Table.HeadCell>Email</Table.HeadCell>
-                <Table.HeadCell>Phone</Table.HeadCell>
-                <Table.HeadCell>Address</Table.HeadCell>
-                <Table.HeadCell>KTP_ID</Table.HeadCell>
+                <Table.HeadCell>Telepon</Table.HeadCell>
+                <Table.HeadCell>Alamat</Table.HeadCell>
+                <Table.HeadCell>No.KTP</Table.HeadCell>
                 <Table.HeadCell>
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>

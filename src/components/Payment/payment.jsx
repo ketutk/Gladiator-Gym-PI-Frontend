@@ -8,6 +8,8 @@ import { useCallback } from "react";
 import { fetchPayment } from "../../functions/API/fetchPayment";
 import { CreatePayment } from "./createpayment";
 import { FilterTanggal } from "./filterDate";
+import { handleDownloadExcelPayments } from "../../functions/libs/downloadExcel";
+import { formatDate } from "../../functions/libs/formatDate";
 export const Payment = ({}) => {
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +21,7 @@ export const Payment = ({}) => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [shouldRefetch, setShouldRefetch] = useState(true);
   const token = localStorage.getItem("token");
 
@@ -26,7 +29,7 @@ export const Payment = ({}) => {
     const fetchItems = async () => {
       setIsLoading(true);
       try {
-        const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from}&to=${to}&pm=${paymentMethod}`, token);
+        const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from ? new Date(from).toLocaleString() : ""}&to=${to ? new Date(to).toLocaleString() : ""}&pm=${paymentMethod}`, token);
         console.log(response);
         setItems(response.data.data.payments);
         setTotalItems(response.data.data.total_items);
@@ -55,6 +58,25 @@ export const Payment = ({}) => {
     setName(e.target.value);
     setIsLoading(true);
     debouncedSetName(e.target.value);
+  };
+
+  const onDownloadExcel = async () => {
+    const query = `?from=${from ? new Date(from).toLocaleString() : ""}&to=${to ? new Date(to).toLocaleString() : ""}`;
+    const name = `Gladiator Gym - Payment Report - ${from ? formatDate(new Date(from)) : ""}_${to ? formatDate(new Date(to)) : ""}`;
+    const confirm = window.confirm("Apakah anda ingin mencetak data pembayaran ini ?");
+
+    if (confirm) {
+      setIsDownloading(true);
+      try {
+        await handleDownloadExcelPayments(name, query, token);
+        window.alert("Berhasil mencetak data pembayaran");
+      } catch (error) {
+        console.log(error);
+        window.alert("Gagal mencetak data pembayaran");
+      } finally {
+        setIsDownloading(false);
+      }
+    }
   };
   return (
     <>
@@ -87,82 +109,87 @@ export const Payment = ({}) => {
             <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
               <CreatePayment setCurrentPage={setCurrentPage} setShouldRefetch={setShouldRefetch} setDebounceName={setDebounceName} setFrom={setFrom} setTo={setTo} />
               <FilterTanggal setFrom={setFrom} setTo={setTo} setShouldRefetch={setShouldRefetch} from={from} to={to} />
-              <Button className="px-0 py-0 text-xs" color={"dark"} size={"xs"}>
-                <Dropdown label={"Status"} dismissOnClick={false} className="px-0 py-0" color={""} size={"sm"}>
-                  <Dropdown.Item>
-                    <input
-                      id="active"
-                      name="membership-status"
-                      type="radio"
-                      value="DEBIT"
-                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      onChange={(e) => {
-                        setPaymentMethod(e.target.value);
-                        setCurrentPage(1);
-                        setShouldRefetch(true);
-                      }}
-                      checked={paymentMethod === "DEBIT" ? true : false}
-                    />
-                    <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Debit
-                    </label>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <input
-                      id="non-active"
-                      name="membership-status"
-                      type="radio"
-                      value="CASH"
-                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      onChange={(e) => {
-                        setPaymentMethod(e.target.value);
-                        setCurrentPage(1);
-                        setShouldRefetch(true);
-                      }}
-                      checked={paymentMethod === "CASH" ? true : false}
-                    />
-                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Cash
-                    </label>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <input
-                      id="non-active"
-                      name="membership-status"
-                      type="radio"
-                      value="TRANSFER"
-                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      onChange={(e) => {
-                        setPaymentMethod(e.target.value);
-                        setCurrentPage(1);
-                        setShouldRefetch(true);
-                      }}
-                      checked={paymentMethod === "TRANSFER" ? true : false}
-                    />
-                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Transfer
-                    </label>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <input
-                      id="non-active"
-                      name="membership-status"
-                      type="radio"
-                      value=""
-                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      onChange={(e) => {
-                        setPaymentMethod(e.target.value);
-                        setCurrentPage(1);
-                        setShouldRefetch(true);
-                      }}
-                      checked={paymentMethod === "" ? true : false}
-                    />
-                    <label for="non-active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      All
-                    </label>
-                  </Dropdown.Item>
-                </Dropdown>
-              </Button>
+              <div className="flex flex-row gap-x-2 items-center">
+                <Button color={"dark"} className="basis-1/2" onClick={onDownloadExcel} disabled={isDownloading ? true : false}>
+                  {isDownloading ? "Mendownload.." : "Cetak"}
+                </Button>
+                <Button className="px-0 py-0 text-xs basis-1/2" color={"dark"} size={"xs"}>
+                  <Dropdown label={"Status"} dismissOnClick={false} className="px-0 py-0" color={""} size={"sm"}>
+                    <Dropdown.Item>
+                      <input
+                        id="debit"
+                        name="membership-status"
+                        type="radio"
+                        value="DEBIT"
+                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        onChange={(e) => {
+                          setPaymentMethod(e.target.value);
+                          setCurrentPage(1);
+                          setShouldRefetch(true);
+                        }}
+                        checked={paymentMethod === "DEBIT" ? true : false}
+                      />
+                      <label for="debit" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Debit
+                      </label>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <input
+                        id="cash"
+                        name="membership-status"
+                        type="radio"
+                        value="CASH"
+                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        onChange={(e) => {
+                          setPaymentMethod(e.target.value);
+                          setCurrentPage(1);
+                          setShouldRefetch(true);
+                        }}
+                        checked={paymentMethod === "CASH" ? true : false}
+                      />
+                      <label for="cash" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Cash
+                      </label>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <input
+                        id="transfer"
+                        name="membership-status"
+                        type="radio"
+                        value="TRANSFER"
+                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        onChange={(e) => {
+                          setPaymentMethod(e.target.value);
+                          setCurrentPage(1);
+                          setShouldRefetch(true);
+                        }}
+                        checked={paymentMethod === "TRANSFER" ? true : false}
+                      />
+                      <label for="transfer" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Transfer
+                      </label>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <input
+                        id="all-status"
+                        name="membership-status"
+                        type="radio"
+                        value=""
+                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        onChange={(e) => {
+                          setPaymentMethod(e.target.value);
+                          setCurrentPage(1);
+                          setShouldRefetch(true);
+                        }}
+                        checked={paymentMethod === "" ? true : false}
+                      />
+                      <label for="all-status" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Semua
+                      </label>
+                    </Dropdown.Item>
+                  </Dropdown>
+                </Button>
+              </div>
             </div>
           </div>
           <div class="overflow-x-auto">

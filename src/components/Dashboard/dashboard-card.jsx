@@ -148,7 +148,7 @@ export const TransactionCard = () => {
         ) : (
           <>
             <div className="flex flex-col justify-center space-y-4 items-start">
-              <h1 className="font-semibold text-2xl">Transaksi</h1>
+              <h1 className="font-semibold text-2xl">Pembayaran</h1>
               <h1 className="font-bold text-3xl">{transactions || 0}</h1>
             </div>
           </>
@@ -190,7 +190,7 @@ export const PembayaranCard = () => {
         ) : (
           <>
             <div className="flex flex-col justify-center space-y-4 items-start">
-              <h1 className="font-semibold text-2xl">Pembayaran</h1>
+              <h1 className="font-semibold text-2xl">Pendapatan</h1>
               <h1 className="font-bold text-3xl">{transactions ? `${transactions / 1000000} Jt` : 0}</h1>
             </div>
           </>

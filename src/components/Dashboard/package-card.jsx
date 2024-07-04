@@ -52,7 +52,7 @@ export const PackageCard = () => {
                     </svg>
                     <h1 className="text-xl font-semibold">{item?._count?.payments || 0}</h1>
                   </div>
-                  <h1 className="text-xl font-semibold">Transaksi</h1>
+                  <h1 className="text-xl font-semibold">Pembayaran</h1>
                 </div>
                 <div className="flex flex-col space-y-4">
                   <div className="flex flex-row space-x-3">
@@ -67,7 +67,7 @@ export const PackageCard = () => {
 
                     <h1 className="text-xl font-semibold">{item?.total_payments ? `${item?.total_payments / 1000000} Jt` : 0}</h1>
                   </div>
-                  <h1 className="text-xl font-semibold">Pembayaran</h1>
+                  <h1 className="text-xl font-semibold">Pendapatan</h1>
                 </div>
               </div>
             </div>

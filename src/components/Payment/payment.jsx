@@ -114,7 +114,7 @@ export const Payment = ({}) => {
                   {isDownloading ? "Mendownload.." : "Cetak"}
                 </Button>
                 <Button className="px-0 py-0 text-xs basis-1/2" color={"dark"} size={"xs"}>
-                  <Dropdown label={"Status"} dismissOnClick={false} className="px-0 py-0" color={""} size={"sm"}>
+                  <Dropdown label={"Metode"} dismissOnClick={false} className="px-0 py-0" color={""} size={"sm"}>
                     <Dropdown.Item>
                       <input
                         id="debit"

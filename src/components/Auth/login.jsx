@@ -25,10 +25,11 @@ const LoginPage = () => {
 
     try {
       const response = await fetchLogin(email, password);
-      localStorage.setItem("token", response?.data?.data?.token);
+      const token = response && response.data && response.data.data && response.data.data.token;
+      localStorage.setItem("token", token);
       window.location.href = "/dashboard";
     } catch (error) {
-      setError(error?.response?.data?.message);
+      setError(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +100,7 @@ const LoginPage = () => {
               {isLoading ? "Mohon tunggu..." : "Masuk"}
             </button>
             <Button className="w-full bg-gray-900 hover:bg-gray-700 mt-3" color={"dark"} href="/">
-              Kembali ke Home
+              Kembali ke Beranda
             </Button>
           </form>
         </div>

@@ -15,8 +15,13 @@ import { VerifyAdmin } from "./components/Verify/verifyAdmin";
 import { NavbarMain } from "./components/Navbar/navbar-main";
 import { HomePage } from "./components/User/homepage";
 import { FindMember } from "./components/User/findmember";
+import { initFlowbite } from "flowbite";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    initFlowbite();
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<NavbarMain childComponent={HomePage} />} />

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { fetchRegisterAdmin } from "../../functions/API/fetchUser";
 
 export const VerifyAdmin = () => {
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [isSuccess, setIsSuccess] = useState();
   const [message, setMessage] = useState("");
 
   const { token } = useParams();

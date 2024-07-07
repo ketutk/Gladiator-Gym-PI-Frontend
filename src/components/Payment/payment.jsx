@@ -29,7 +29,7 @@ export const Payment = ({}) => {
     const fetchItems = async () => {
       setIsLoading(true);
       try {
-        const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from ? new Date(from).toLocaleString() : ""}&to=${to ? new Date(to).toLocaleString() : ""}&pm=${paymentMethod}`, token);
+        const response = await fetchPayment(`?page=${currentPage}&s=${debounceName}&from=${from ? new Date(from).toLocaleString("en-US") : ""}&to=${to ? new Date(to).toLocaleString("en-US") : ""}&pm=${paymentMethod}`, token);
         console.log(response);
         setItems(response.data.data.payments);
         setTotalItems(response.data.data.total_items);

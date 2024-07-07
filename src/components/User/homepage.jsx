@@ -71,10 +71,11 @@ export const HomePage = () => {
             <h2 class="mb-8 text-3xl font-extrabold tracking-tight leading-none text-white md:text-4xl lg:text-5xl">Paket Keanggotaan</h2>
             <div class="flex w-full justify-center items-center">
               <div className="w-full flex flex-nowrap overflow-x-auto gap-4">
-                {items &&
-                  items.map((item) => {
-                    return <Card item={item} />;
-                  })}
+                {items
+                  ? items.map((item) => {
+                      return <Card key={item.id} item={item} />;
+                    })
+                  : Array.from({ length: 4 }).map((_, index) => <Card key={index} />)}
               </div>
             </div>
           </div>
@@ -171,30 +172,32 @@ export const HomePage = () => {
 };
 
 const Card = ({ item }) => {
+  const isDataReady = item !== undefined;
+
   return (
-    <div class="min-w-64 rounded-lg shadow-lg bg-gray-800 text-white p-6 mx-auto max-w-lg text-center  dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-      <h3 class="mb-4 text-2xl font-semibold">{item?.name}</h3>
-      <div class="flex justify-center items-baseline my-8">
-        <span class="mr-2 text-3xl font-extrabold text-nowrap">{formatRupiah(item?.price)}</span>
+    <div className={`min-w-64 rounded-lg shadow-lg p-6 mx-auto max-w-lg text-center ${isDataReady ? "bg-gray-800 text-white" : "bg-gray-800 text-gray-700"}`}>
+      <h3 className="mb-4 text-2xl font-semibold">{isDataReady ? item.name : "Loading..."}</h3>
+      <div className="flex justify-center items-baseline my-8">
+        <span className="mr-2 text-3xl font-extrabold text-nowrap">{isDataReady ? formatRupiah(item.price) : "---"}</span>
       </div>
-      <ul role="list" class="mb-8 space-y-4 text-left">
-        <li class="flex items-center space-x-3">
-          <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+      <ul role="list" className="mb-8 space-y-4 text-left">
+        <li className="flex items-center space-x-3">
+          <svg className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
           </svg>
-          <span>Membership selama {item?.days_add} hari</span>
+          <span>{isDataReady ? `Membership selama ${item.days_add} hari` : "Loading..."}</span>
         </li>
-        <li class="flex items-center space-x-3">
-          <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        <li className="flex items-center space-x-3">
+          <svg className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
           </svg>
-          <span>Full akses 24/7</span>
+          <span>{isDataReady ? "Full akses 24/7" : "Loading..."}</span>
         </li>
-        <li class="flex items-center space-x-3">
-          <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        <li className="flex items-center space-x-3">
+          <svg className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
           </svg>
-          <span>Gratis akses setiap alat gym</span>
+          <span>{isDataReady ? "Gratis akses setiap alat gym" : "Loading..."}</span>
         </li>
       </ul>
     </div>

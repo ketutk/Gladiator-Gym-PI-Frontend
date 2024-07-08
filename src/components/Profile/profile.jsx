@@ -10,6 +10,7 @@ const Profile = ({ user, setShouldRefetch, token }) => {
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setAddress(user?.profile?.address);
@@ -19,18 +20,20 @@ const Profile = ({ user, setShouldRefetch, token }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await fetchUpdateProfile({ phone, name, address }, token);
       console.log(response);
       setShouldRefetch(true);
       setSuccess(response.data.message);
+      setIsLoading(false);
       setTimeout(() => {
         setSuccess("");
       }, 3000);
     } catch (error) {
       console.log(error);
       setError(error?.response?.data?.data?.message);
+      setIsLoading(false);
     }
   };
   return (
@@ -113,8 +116,8 @@ const Profile = ({ user, setShouldRefetch, token }) => {
                   }}
                 />
               </div>
-              <button type="submit" class="w-full bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600">
-                Perbarui
+              <button type="submit" class="w-full bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" disabled={isLoading}>
+                {name ? (isLoading ? "Mohon tunggu..." : "Perbarui") : "Memuat data..."}
               </button>
             </form>
           )}

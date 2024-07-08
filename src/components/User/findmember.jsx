@@ -112,8 +112,8 @@ export const FindMember = () => {
                     )}
                   </Table.Body>
                 </Table>
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} className="py-4" color="dark" previousLabel="Sebelum" nextLabel="Selanjutnya" />
               </div>
+              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} className="py-4" color="dark" previousLabel="Sebelum" nextLabel="Selanjutnya" />
             </div>
           )}
         </div>

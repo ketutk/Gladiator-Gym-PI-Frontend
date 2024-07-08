@@ -72,7 +72,7 @@ export const Admin = ({ token }) => {
                     type="text"
                     id="simple-search"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
-                    placeholder="Search by name,email,or phone..."
+                    placeholder="Cari berdasarkan nama, email, atau nomor telepon..."
                     value={name}
                     onChange={onChangeName}
                   />

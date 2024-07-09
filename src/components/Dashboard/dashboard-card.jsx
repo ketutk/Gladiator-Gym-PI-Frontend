@@ -1,26 +1,8 @@
 import { useEffect } from "react";
-import { fetchActiveMember, fetchTotalMember, fetchTotalTransactions, fetchTransactions } from "../../functions/API/fetchDashboard";
 import { useState } from "react";
 import { Spinner } from "flowbite-react";
 
-export const MemberCard = () => {
-  const [totalMember, setTotalMember] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    setIsLoading(true);
-    const fetch = async () => {
-      try {
-        const response = await fetchTotalMember(token);
-        setTotalMember(response.data.data.members);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch();
-  }, []);
-
+export const MemberCard = ({ totalMember, isLoading }) => {
   return (
     <div class=" w-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-row items-center justify-start w-full space-x-4 p-4">
@@ -58,13 +40,13 @@ export const MemberCard = () => {
             </filter>
           </defs>
         </svg>
-        {isLoading ? (
+        {isLoading || totalMember == undefined ? (
           <Spinner size={"xl"} />
         ) : (
           <>
             <div className="flex flex-col justify-center space-y-4 items-start">
               <h1 className="font-semibold text-2xl">Member</h1>
-              <h1 className="font-bold text-3xl">{totalMember || 0}</h1>
+              <h1 className="font-bold text-3xl">{totalMember}</h1>
             </div>
           </>
         )}
@@ -72,23 +54,7 @@ export const MemberCard = () => {
     </div>
   );
 };
-export const ActiveCard = () => {
-  const [totalMember, setTotalMember] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    setIsLoading(true);
-    const fetch = async () => {
-      try {
-        const response = await fetchActiveMember(token);
-        setTotalMember(response.data.data.members);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch();
-  }, []);
+export const ActiveCard = ({ totalMember, isLoading }) => {
   return (
     <div class=" w-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-row items-center justify-start w-full space-x-4 p-4">
@@ -99,13 +65,13 @@ export const ActiveCard = () => {
             fill-opacity="0.62"
           />
         </svg>
-        {isLoading ? (
+        {isLoading || totalMember == undefined ? (
           <Spinner size={"xl"} />
         ) : (
           <>
             <div className="flex flex-col justify-center space-y-4 items-start">
               <h1 className="font-semibold text-2xl text-nowrap">Member Aktif</h1>
-              <h1 className="font-bold text-3xl">{totalMember || 0}</h1>
+              <h1 className="font-bold text-3xl">{totalMember}</h1>
             </div>
           </>
         )}
@@ -113,23 +79,7 @@ export const ActiveCard = () => {
     </div>
   );
 };
-export const TransactionCard = () => {
-  const [transactions, setTransactions] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    setIsLoading(true);
-    const fetch = async () => {
-      try {
-        const response = await fetchTransactions(token);
-        setTransactions(response.data.data.transactions);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch();
-  }, []);
+export const TransactionCard = ({ transactions, isLoading }) => {
   return (
     <div class=" w-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-row items-center justify-start w-full space-x-4 p-4">
@@ -143,13 +93,13 @@ export const TransactionCard = () => {
             stroke-linejoin="round"
           />
         </svg>
-        {isLoading ? (
+        {isLoading || transactions == undefined ? (
           <Spinner size={"xl"} />
         ) : (
           <>
             <div className="flex flex-col justify-center space-y-4 items-start">
               <h1 className="font-semibold text-2xl">Pembayaran</h1>
-              <h1 className="font-bold text-3xl">{transactions || 0}</h1>
+              <h1 className="font-bold text-3xl">{transactions}</h1>
             </div>
           </>
         )}
@@ -157,23 +107,7 @@ export const TransactionCard = () => {
     </div>
   );
 };
-export const PembayaranCard = () => {
-  const [transactions, setTransactions] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    setIsLoading(true);
-    const fetch = async () => {
-      try {
-        const response = await fetchTotalTransactions(token);
-        setTransactions(response?.data?.data?.transactions?._sum?.total_payments);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch();
-  }, []);
+export const PembayaranCard = ({ transactions, isLoading }) => {
   return (
     <div class="w-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-row items-center justify-start w-full space-x-4 p-4">
@@ -185,13 +119,13 @@ export const PembayaranCard = () => {
             stroke-width="3.67"
           />
         </svg>
-        {isLoading ? (
+        {isLoading || transactions == undefined ? (
           <Spinner size={"xl"} />
         ) : (
           <>
             <div className="flex flex-col justify-center space-y-4 items-start">
               <h1 className="font-semibold text-2xl">Pendapatan</h1>
-              <h1 className="font-bold text-3xl">{transactions ? `${transactions / 1000000} Jt` : 0}</h1>
+              <h1 className="font-bold text-3xl">{`${transactions?._sum?.total_payments / 1000000} Jt`}</h1>
             </div>
           </>
         )}

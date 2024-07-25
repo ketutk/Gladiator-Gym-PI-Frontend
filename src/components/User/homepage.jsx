@@ -8,6 +8,11 @@ export const HomePage = () => {
   const [items, setItems] = useState();
   const [isShowPackage, setIsShowPackage] = useState(false);
 
+  const token = localStorage.getItem("token");
+  if (token) {
+    window.location.href = "/dashboard";
+  }
+
   useEffect(() => {
     const fetch = async () => {
       try {
